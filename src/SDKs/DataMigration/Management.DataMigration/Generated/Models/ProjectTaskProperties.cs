@@ -40,14 +40,11 @@ namespace Microsoft.Azure.Management.DataMigration.Models
         /// 'Canceled', 'Succeeded', 'Failed', 'FailedInputValidation',
         /// 'Faulted'</param>
         /// <param name="commands">Array of command properties.</param>
-        /// <param name="clientData">Key value pairs of client data to attach
-        /// meta data information to task</param>
-        public ProjectTaskProperties(IList<ODataError> errors = default(IList<ODataError>), string state = default(string), IList<CommandProperties> commands = default(IList<CommandProperties>), IDictionary<string, string> clientData = default(IDictionary<string, string>))
+        public ProjectTaskProperties(IList<ODataError> errors = default(IList<ODataError>), string state = default(string), IList<CommandProperties> commands = default(IList<CommandProperties>))
         {
             Errors = errors;
             State = state;
             Commands = commands;
-            ClientData = clientData;
             CustomInit();
         }
 
@@ -75,13 +72,6 @@ namespace Microsoft.Azure.Management.DataMigration.Models
         /// </summary>
         [JsonProperty(PropertyName = "commands")]
         public IList<CommandProperties> Commands { get; private set; }
-
-        /// <summary>
-        /// Gets or sets key value pairs of client data to attach meta data
-        /// information to task
-        /// </summary>
-        [JsonProperty(PropertyName = "clientData")]
-        public IDictionary<string, string> ClientData { get; set; }
 
     }
 }

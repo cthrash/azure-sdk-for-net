@@ -17,8 +17,5 @@ namespace Microsoft.Azure.Management.GuestConfiguration.Models
     public static class ProvisioningState
     {
         public const string Succeeded = "Succeeded";
-        public const string Failed = "Failed";
-        public const string Canceled = "Canceled";
-        public const string Created = "Created";
     }
 }

@@ -333,11 +333,6 @@ namespace Microsoft.Azure.Management.Sql
         IManagedDatabasesOperations ManagedDatabases { get; }
 
         /// <summary>
-        /// Gets the IManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations.
-        /// </summary>
-        IManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies { get; }
-
-        /// <summary>
         /// Gets the IServerAutomaticTuningOperations.
         /// </summary>
         IServerAutomaticTuningOperations ServerAutomaticTuning { get; }
@@ -351,11 +346,6 @@ namespace Microsoft.Azure.Management.Sql
         /// Gets the IServerSecurityAlertPoliciesOperations.
         /// </summary>
         IServerSecurityAlertPoliciesOperations ServerSecurityAlertPolicies { get; }
-
-        /// <summary>
-        /// Gets the IRestorableDroppedManagedDatabasesOperations.
-        /// </summary>
-        IRestorableDroppedManagedDatabasesOperations RestorableDroppedManagedDatabases { get; }
 
         /// <summary>
         /// Gets the IRestorePointsOperations.

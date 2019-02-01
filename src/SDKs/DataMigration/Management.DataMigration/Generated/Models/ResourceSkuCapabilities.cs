@@ -14,7 +14,7 @@ namespace Microsoft.Azure.Management.DataMigration.Models
     using System.Linq;
 
     /// <summary>
-    /// Describes The SKU capabilities object.
+    /// Describes The SKU capabilites object.
     /// </summary>
     public partial class ResourceSkuCapabilities
     {

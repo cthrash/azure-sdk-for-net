@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Management.DataFactory.Models
     using System.Linq;
 
     /// <summary>
-    /// Jira Service linked service.
+    /// Jira Serivce linked service.
     /// </summary>
     [Newtonsoft.Json.JsonObject("Jira")]
     [Rest.Serialization.JsonTransformation]

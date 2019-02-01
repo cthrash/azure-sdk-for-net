@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Management.DataFactory.Models
     using System.Linq;
 
     /// <summary>
-    /// Square Service linked service.
+    /// Square Serivce linked service.
     /// </summary>
     [Newtonsoft.Json.JsonObject("Square")]
     [Rest.Serialization.JsonTransformation]

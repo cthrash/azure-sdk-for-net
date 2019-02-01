@@ -90,9 +90,9 @@ namespace Microsoft.Azure.Management.Blueprint
         IAssignmentsOperations Assignments { get; }
 
         /// <summary>
-        /// Gets the IAssignmentOperations.
+        /// Gets the IOperations.
         /// </summary>
-        IAssignmentOperations AssignmentOperations { get; }
+        IOperations Operations { get; }
 
     }
 }

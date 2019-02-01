@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Management.DataFactory.Models
     using System.Linq;
 
     /// <summary>
-    /// Xero Service linked service.
+    /// Xero Serivce linked service.
     /// </summary>
     [Newtonsoft.Json.JsonObject("Xero")]
     [Rest.Serialization.JsonTransformation]

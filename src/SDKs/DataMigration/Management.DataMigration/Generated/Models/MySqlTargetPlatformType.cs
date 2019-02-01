@@ -16,7 +16,6 @@ namespace Microsoft.Azure.Management.DataMigration.Models
     /// </summary>
     public static class MySqlTargetPlatformType
     {
-        public const string SqlServer = "SqlServer";
         public const string AzureDbForMySQL = "AzureDbForMySQL";
     }
 }

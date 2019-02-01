@@ -81,7 +81,7 @@ namespace Microsoft.Rest.ClientRuntime.Azure.Test
             });
         }
 
-        [Fact(Skip = "Investigate why failing on .net core")]
+        [Fact]
         public void PromptOnlyClientSettingsWillAlwaysPrompt()
         {
             var clientId = Guid.NewGuid().ToString();
@@ -95,7 +95,7 @@ namespace Microsoft.Rest.ClientRuntime.Azure.Test
             Assert.Equal(ActiveDirectoryClientSettings.EnableEbdMagicCookie, settings.AdditionalQueryParameters);
         }
 
-        [Fact(Skip = "Investigate why failing on .net core")]
+        [Fact]
         public void NoPromptClientSettingsWillNeverPrompt()
         {
             var clientId = Guid.NewGuid().ToString();
@@ -109,7 +109,7 @@ namespace Microsoft.Rest.ClientRuntime.Azure.Test
             Assert.Equal(ActiveDirectoryClientSettings.EnableEbdMagicCookie, settings.AdditionalQueryParameters);
         }
 
-        [Fact(Skip ="Investigate why failing on .net core")]
+        [Fact]
         public void AutoPromptClientSettingsWillPromptIfNecessary()
         {
             var clientId = Guid.NewGuid().ToString();
@@ -123,7 +123,7 @@ namespace Microsoft.Rest.ClientRuntime.Azure.Test
             Assert.Equal(ActiveDirectoryClientSettings.EnableEbdMagicCookie, settings.AdditionalQueryParameters);
         }
 
-        [Fact(Skip = "Investigate why failing on .net core")]
+       [Fact]
         public void ClientSettingsDefaultToAutoPrompt()
         {
             var clientId = Guid.NewGuid().ToString();

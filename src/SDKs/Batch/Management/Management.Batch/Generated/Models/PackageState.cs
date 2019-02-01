@@ -21,17 +21,12 @@ namespace Microsoft.Azure.Management.Batch.Models
     [JsonConverter(typeof(StringEnumConverter))]
     public enum PackageState
     {
-        /// <summary>
-        /// The application package has been created but has not yet been
-        /// activated.
-        /// </summary>
         [EnumMember(Value = "Pending")]
         Pending,
-        /// <summary>
-        /// The application package is ready for use.
-        /// </summary>
         [EnumMember(Value = "Active")]
-        Active
+        Active,
+        [EnumMember(Value = "Unmapped")]
+        Unmapped
     }
     internal static class PackageStateEnumExtension
     {
@@ -48,6 +43,8 @@ namespace Microsoft.Azure.Management.Batch.Models
                     return "Pending";
                 case PackageState.Active:
                     return "Active";
+                case PackageState.Unmapped:
+                    return "Unmapped";
             }
             return null;
         }
@@ -60,6 +57,8 @@ namespace Microsoft.Azure.Management.Batch.Models
                     return PackageState.Pending;
                 case "Active":
                     return PackageState.Active;
+                case "Unmapped":
+                    return PackageState.Unmapped;
             }
             return null;
         }

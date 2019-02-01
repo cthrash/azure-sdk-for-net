@@ -16,7 +16,7 @@ namespace Microsoft.Azure.Management.DataFactory.Models
     using System.Linq;
 
     /// <summary>
-    /// The recurrence schedule occurrence.
+    /// The recurrence schedule occurence.
     /// </summary>
     public partial class RecurrenceScheduleOccurrence
     {

@@ -290,7 +290,7 @@ namespace Microsoft.Azure.Management.StorageSync
             }
 
             /// <summary>
-            /// Recall a server endpoint.
+            /// Recall a serverendpoint.
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
@@ -316,7 +316,7 @@ namespace Microsoft.Azure.Management.StorageSync
             }
 
             /// <summary>
-            /// Recall a server endpoint.
+            /// Recall a serverendpoint.
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
@@ -516,7 +516,7 @@ namespace Microsoft.Azure.Management.StorageSync
             }
 
             /// <summary>
-            /// Recall a server endpoint.
+            /// Recall a serverendpoint.
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
@@ -542,7 +542,7 @@ namespace Microsoft.Azure.Management.StorageSync
             }
 
             /// <summary>
-            /// Recall a server endpoint.
+            /// Recall a serverendpoint.
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.

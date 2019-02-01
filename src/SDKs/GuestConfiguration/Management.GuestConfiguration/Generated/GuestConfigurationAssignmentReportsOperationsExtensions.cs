@@ -32,7 +32,7 @@ namespace Microsoft.Azure.Management.GuestConfiguration
             /// The resource group name.
             /// </param>
             /// <param name='guestConfigurationAssignmentName'>
-            /// The guest configuration assignment name.
+            /// The guest configuration assingment name.
             /// </param>
             /// <param name='vmName'>
             /// The name of the virtual machine.
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.Management.GuestConfiguration
             /// The resource group name.
             /// </param>
             /// <param name='guestConfigurationAssignmentName'>
-            /// The guest configuration assignment name.
+            /// The guest configuration assingment name.
             /// </param>
             /// <param name='vmName'>
             /// The name of the virtual machine.

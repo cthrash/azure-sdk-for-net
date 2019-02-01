@@ -31,7 +31,6 @@ namespace Microsoft.Azure.Batch.Conventions.Files.IntegrationTests.Utilities
         public FakeBatchServiceClient(Func<HttpRequestMessage, HttpResponseMessage> impl)
             : base(new FakingHandler(impl))
         {
-            this.BatchUrl = "https://a.b.c.d.e.f.g";
         }
 
         public FakeBatchServiceClient(object responseBody)

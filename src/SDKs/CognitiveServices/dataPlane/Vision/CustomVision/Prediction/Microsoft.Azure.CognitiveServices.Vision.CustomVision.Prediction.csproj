@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFrameworks>$(SdkTargetFx)</TargetFrameworks>
+    <TargetFrameworks>net452;netstandard1.4</TargetFrameworks>
     <PackageProjectUrl>http://customvision.ai</PackageProjectUrl>
   </PropertyGroup>
 

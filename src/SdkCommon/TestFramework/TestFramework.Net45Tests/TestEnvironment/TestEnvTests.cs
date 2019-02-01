@@ -9,8 +9,6 @@ namespace TestFramework.Net45Tests
 
     public class TestEnvTests
     {
-        const string ENV_VARIABLE_NAME = "TEST_CSM_ORGID_AUTHENTICATION";
-
         [Theory(Skip = "Interactive Tests, needs to be run manually")]
         [InlineData("AADTenant=<GetCSPtenantId>")]
         [InlineData("AADTenant=<GetCSPtenantId>;SubscriptionId=None;Environment=Prod")] //Test this with None as the SubId
@@ -19,7 +17,7 @@ namespace TestFramework.Net45Tests
             // Use this test case to set connection string without username and password, which will prompt you to enter UserName and password
             // use CSP username/pwd that we have. This account has no subscription associated, hence throws exception.
             // TestEnv checks if the logged in user has the subscription that is provided in the connection string
-            Environment.SetEnvironmentVariable(ENV_VARIABLE_NAME, connStr);
+            Environment.SetEnvironmentVariable("TEST_CSM_ORGID_AUTHENTICATION", connStr);
             HttpMockServer.Mode = HttpRecorderMode.Record;
             try
             {
@@ -40,7 +38,7 @@ namespace TestFramework.Net45Tests
             // Log in for this test case using your alias
             // the idea is to initiate auth even on 2FA tenant (in this case msft)
             // have a valid tenant id and subscription your alias has access to.
-            Environment.SetEnvironmentVariable(ENV_VARIABLE_NAME, connStr);
+            Environment.SetEnvironmentVariable("TEST_CSM_ORGID_AUTHENTICATION", connStr);
             HttpMockServer.Mode = HttpRecorderMode.Record;
             TestEnvironment env = TestEnvironmentFactory.GetTestEnvironment();
             string userId = env.ConnectionString.KeyValuePairs[ConnectionStringKeys.UserIdKey];
@@ -67,7 +65,7 @@ namespace TestFramework.Net45Tests
         public void InteractiveLoginGermanCloud(string connStr)
         {
             // Log in for this test case using your alias
-            Environment.SetEnvironmentVariable(ENV_VARIABLE_NAME, connStr);
+            Environment.SetEnvironmentVariable("TEST_CSM_ORGID_AUTHENTICATION", connStr);
             HttpMockServer.Mode = HttpRecorderMode.Record;
             TestEnvironment env = TestEnvironmentFactory.GetTestEnvironment();
             string userId = env.ConnectionString.KeyValuePairs[ConnectionStringKeys.UserIdKey];
@@ -93,7 +91,7 @@ namespace TestFramework.Net45Tests
         public void InteractiveGermanLoginNoSubscription(string connStr)
         {
             // Log in for this test case using your alias
-            Environment.SetEnvironmentVariable(ENV_VARIABLE_NAME, connStr);
+            Environment.SetEnvironmentVariable("TEST_CSM_ORGID_AUTHENTICATION", connStr);
             HttpMockServer.Mode = HttpRecorderMode.Record;
             TestEnvironment env = TestEnvironmentFactory.GetTestEnvironment();
             string subscriptionId = env.ConnectionString.KeyValuePairs[ConnectionStringKeys.SubscriptionIdKey];
@@ -109,25 +107,7 @@ namespace TestFramework.Net45Tests
             // Inline data connection string to inject your raw token to run this test.
             // We use the subscription Id to verify if the RawToken can get the subscription information and hence verifies if the RawToken can be used for Auth purpose
 
-            Environment.SetEnvironmentVariable(ENV_VARIABLE_NAME, connStr);
-            HttpMockServer.Mode = HttpRecorderMode.Record;
-            TestEnvironment env = TestEnvironmentFactory.GetTestEnvironment();
-            string subscriptionId = env.ConnectionString.KeyValuePairs[ConnectionStringKeys.SubscriptionIdKey];
-            Assert.False(string.IsNullOrEmpty(subscriptionId));
-        }
-
-
-        [Theory(Skip = "Interactive Test")]
-        //[Theory]
-        [InlineData("<ConnectionString>")]
-        //[InlineData("SubscriptionId=<subId>;AADTenant=<tenantId>;UserId=<uid.onmicrosoft.com;Password=<pwd>")]
-        public void AdHocAuthTest(string connStr)
-        {
-            // Use the commented out InlineData to get RawToken by first logging in using the username/password. Once you get the RawToken, then use the other
-            // Inline data connection string to inject your raw token to run this test.
-            // We use the subscription Id to verify if the RawToken can get the subscription information and hence verifies if the RawToken can be used for Auth purpose
-
-            Environment.SetEnvironmentVariable(ENV_VARIABLE_NAME, connStr);
+            Environment.SetEnvironmentVariable("TEST_CSM_ORGID_AUTHENTICATION", connStr);
             HttpMockServer.Mode = HttpRecorderMode.Record;
             TestEnvironment env = TestEnvironmentFactory.GetTestEnvironment();
             string subscriptionId = env.ConnectionString.KeyValuePairs[ConnectionStringKeys.SubscriptionIdKey];

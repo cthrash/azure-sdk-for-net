@@ -30,7 +30,7 @@
     </PackageReleaseNotes>
 	</PropertyGroup>
 	<PropertyGroup>
-		<TargetFrameworks>$(SdkTargetFx)</TargetFrameworks>
+		<TargetFrameworks>net452;netstandard1.4</TargetFrameworks>
 		<RootNamespace>Microsoft.Azure.Management.DataBox</RootNamespace>
 	</PropertyGroup>
 	<ItemGroup>

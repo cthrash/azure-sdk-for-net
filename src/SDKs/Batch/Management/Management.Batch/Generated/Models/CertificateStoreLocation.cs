@@ -21,16 +21,8 @@ namespace Microsoft.Azure.Management.Batch.Models
     [JsonConverter(typeof(StringEnumConverter))]
     public enum CertificateStoreLocation
     {
-        /// <summary>
-        /// Certificates should be installed to the CurrentUser certificate
-        /// store.
-        /// </summary>
         [EnumMember(Value = "CurrentUser")]
         CurrentUser,
-        /// <summary>
-        /// Certificates should be installed to the LocalMachine certificate
-        /// store.
-        /// </summary>
         [EnumMember(Value = "LocalMachine")]
         LocalMachine
     }

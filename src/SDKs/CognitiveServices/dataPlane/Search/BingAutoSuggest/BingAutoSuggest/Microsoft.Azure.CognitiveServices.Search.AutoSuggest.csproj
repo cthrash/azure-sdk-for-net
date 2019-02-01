@@ -18,7 +18,7 @@
     </PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFrameworks>$(SdkTargetFx)</TargetFrameworks>
+    <TargetFrameworks>net452;netstandard1.4</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

@@ -30,9 +30,8 @@ namespace Microsoft.Azure.Management.DataFactory.Models
         /// <summary>
         /// Initializes a new instance of the SSISPackageLocation class.
         /// </summary>
-        /// <param name="packagePath">The SSIS package path. Type: string (or
-        /// Expression with resultType string).</param>
-        public SSISPackageLocation(object packagePath)
+        /// <param name="packagePath">The SSIS package path.</param>
+        public SSISPackageLocation(string packagePath)
         {
             PackagePath = packagePath;
             CustomInit();
@@ -44,11 +43,10 @@ namespace Microsoft.Azure.Management.DataFactory.Models
         partial void CustomInit();
 
         /// <summary>
-        /// Gets or sets the SSIS package path. Type: string (or Expression
-        /// with resultType string).
+        /// Gets or sets the SSIS package path.
         /// </summary>
         [JsonProperty(PropertyName = "packagePath")]
-        public object PackagePath { get; set; }
+        public string PackagePath { get; set; }
 
         /// <summary>
         /// Validate the object.

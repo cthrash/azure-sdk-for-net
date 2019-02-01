@@ -104,11 +104,6 @@ namespace Microsoft.Azure.Management.Network
         public virtual IAzureFirewallFqdnTagsOperations AzureFirewallFqdnTags { get; private set; }
 
         /// <summary>
-        /// Gets the IDdosCustomPoliciesOperations.
-        /// </summary>
-        public virtual IDdosCustomPoliciesOperations DdosCustomPolicies { get; private set; }
-
-        /// <summary>
         /// Gets the IDdosProtectionPlansOperations.
         /// </summary>
         public virtual IDdosProtectionPlansOperations DdosProtectionPlans { get; private set; }
@@ -660,7 +655,6 @@ namespace Microsoft.Azure.Management.Network
             AvailableResourceGroupDelegations = new AvailableResourceGroupDelegationsOperations(this);
             AzureFirewalls = new AzureFirewallsOperations(this);
             AzureFirewallFqdnTags = new AzureFirewallFqdnTagsOperations(this);
-            DdosCustomPolicies = new DdosCustomPoliciesOperations(this);
             DdosProtectionPlans = new DdosProtectionPlansOperations(this);
             AvailableEndpointServices = new AvailableEndpointServicesOperations(this);
             ExpressRouteCircuitAuthorizations = new ExpressRouteCircuitAuthorizationsOperations(this);
@@ -802,7 +796,7 @@ namespace Microsoft.Azure.Management.Network
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "this.SubscriptionId");
             }
-            string apiVersion = "2018-11-01";
+            string apiVersion = "2018-10-01";
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
@@ -1000,7 +994,7 @@ namespace Microsoft.Azure.Management.Network
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "virtualWANName");
             }
-            string apiVersion = "2018-11-01";
+            string apiVersion = "2018-10-01";
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;

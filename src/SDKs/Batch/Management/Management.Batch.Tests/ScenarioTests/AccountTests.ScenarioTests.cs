@@ -121,13 +121,13 @@ namespace Batch.Tests.ScenarioTests
                     await this.ResourceManagementClient.Providers.RegisterWithHttpMessagesAsync("Microsoft.KeyVault");
 
                     var result = await this.ResourceManagementClient.Resources.CreateOrUpdateWithHttpMessagesAsync(
-                        resourceGroupName: resourceGroupName,
-                        resourceProviderNamespace: "Microsoft.KeyVault",
-                        parentResourcePath: "",
-                        resourceType: "vaults",
-                        resourceName: keyvaultName,
-                        apiVersion: "2016-10-01",
-                        parameters: new GenericResource()
+                        resourceGroupName,
+                        "Microsoft.KeyVault",
+                        "",
+                        "vaults",
+                        keyvaultName,
+                        "2016-10-01",
+                        new GenericResource()
                         {
                             Location = this.Location,
                             Properties = new Dictionary<string, object>
@@ -157,7 +157,7 @@ namespace Batch.Tests.ScenarioTests
 
                     var keyVaultReferenceId =
                         $"/subscriptions/{this.BatchManagementClient.SubscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{keyvaultName}";
-                    var keyVaultReferenceUrl = ((Newtonsoft.Json.Linq.JObject)result.Body.Properties)["vaultUri"].ToString();
+                    var keyVaultReferenceUrl = ((Newtonsoft.Json.Linq.JObject)result.Body.Properties)["vaultUri"] + "/";
                     // Create an account
                     BatchAccountCreateParameters createParams = new BatchAccountCreateParameters(
                         this.Location,

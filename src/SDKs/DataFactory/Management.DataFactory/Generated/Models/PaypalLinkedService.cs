@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Management.DataFactory.Models
     using System.Linq;
 
     /// <summary>
-    /// Paypal Service linked service.
+    /// Paypal Serivce linked service.
     /// </summary>
     [Newtonsoft.Json.JsonObject("Paypal")]
     [Rest.Serialization.JsonTransformation]

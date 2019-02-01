@@ -16,7 +16,7 @@ namespace Microsoft.Azure.Management.DataFactory.Models
     using System.Linq;
 
     /// <summary>
-    /// A copy activity Xero Service source.
+    /// A copy activity Xero Serivce source.
     /// </summary>
     public partial class XeroSource : CopySource
     {

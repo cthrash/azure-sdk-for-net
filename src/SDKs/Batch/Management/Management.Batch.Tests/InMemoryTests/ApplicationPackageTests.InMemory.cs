@@ -38,15 +38,20 @@ namespace Batch.Tests.InMemoryTests
         {
             var utcNow = DateTime.UtcNow;
 
-            HttpResponseMessage response = new HttpResponseMessage()
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Created)
             {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(ApplicationPackageJson(utcNow))
+                StatusCode = HttpStatusCode.Created,
+                Content = new StringContent(@"{
+                    'id': 'foo',
+                    'storageUrl': '/subscriptions/12345/resourceGroups/foo/providers/Microsoft.Batch/batchAccounts/acctName',
+                    'version' : 'beta',
+                    'storageUrlExpiry' : '" + utcNow.ToString("o") + @"',
+                    }")
             };
 
 
             response.Headers.Add("x-ms-request-id", "1");
-            var handler = new RecordedDelegatingHandler(response);
+            var handler = new RecordedDelegatingHandler(response) { StatusCodeToReturn = HttpStatusCode.OK };
             var client = BatchTestHelper.GetBatchManagementClient(handler);
 
             var result = Task.Factory.StartNew(() =>
@@ -61,21 +66,33 @@ namespace Batch.Tests.InMemoryTests
             Assert.NotNull(handler.RequestHeaders.GetValues("User-Agent"));
 
             // Validate result
-            Assert.Equal(HttpStatusCode.OK, result.Response.StatusCode);
-            AssertOnApplicationPackageProperties(result.Body, utcNow);
+            Assert.Equal(utcNow, result.Body.StorageUrlExpiry);
+            Assert.Equal("foo", result.Body.Id);
+            Assert.Equal("beta", result.Body.Version);
+            Assert.Equal("/subscriptions/12345/resourceGroups/foo/providers/Microsoft.Batch/batchAccounts/acctName", result.Body.StorageUrl);
+            Assert.Equal(HttpStatusCode.Created, result.Response.StatusCode);
         }
 
         [Fact]
         public void AddApplicationValidateMessage()
         {
-            HttpResponseMessage response = new HttpResponseMessage()
+            var utcNow = DateTime.UtcNow;
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Created)
             {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(ApplicationJson())
+                StatusCode = HttpStatusCode.Created,
+                Content = new StringContent(@"{
+                    'id': 'foo',
+                    'allowUpdates': 'true',
+                    'displayName' : 'displayName',
+                    'defaultVersion' : 'beta',
+                    'packages':[
+                        {'version':'fooVersion', 'state':'pending', 'format': 'betaFormat', 'lastActivationTime': '" + utcNow.ToString("o") + @"'}],
+
+                    }")
             };
 
             response.Headers.Add("x-ms-request-id", "1");
-            var handler = new RecordedDelegatingHandler(response);
+            var handler = new RecordedDelegatingHandler(response) { StatusCodeToReturn = HttpStatusCode.OK };
             var client = BatchTestHelper.GetBatchManagementClient(handler);
 
             var result = Task.Factory.StartNew(() =>
@@ -83,10 +100,10 @@ namespace Batch.Tests.InMemoryTests
                 "resourceGroupName",
                 "acctName",
                 "appId",
-                new Application
+                new ApplicationCreateParameters
                 {
                     AllowUpdates = true,
-                    DisplayName = "displayName"
+                    DisplayName = "display-name"
                 })).Unwrap().GetAwaiter().GetResult();
 
 
@@ -95,22 +112,19 @@ namespace Batch.Tests.InMemoryTests
             Assert.NotNull(handler.RequestHeaders.GetValues("User-Agent"));
 
             // Validate result
-            Assert.Equal(HttpStatusCode.OK, result.Response.StatusCode);
-            AssertOnApplicationProperties(result.Body);
+            Assert.Equal(HttpStatusCode.Created, result.Response.StatusCode);
         }
 
         [Fact]
         public void ActivateApplicationPackageValidateMessage()
         {
-            var utcNow = DateTime.UtcNow;
-            HttpResponseMessage response = new HttpResponseMessage()
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Created)
             {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(ApplicationPackageJson(utcNow))
+                StatusCode = HttpStatusCode.NoContent
             };
 
             response.Headers.Add("x-ms-request-id", "1");
-            var handler = new RecordedDelegatingHandler(response);
+            var handler = new RecordedDelegatingHandler(response) { StatusCodeToReturn = HttpStatusCode.OK };
             var client = BatchTestHelper.GetBatchManagementClient(handler);
 
             var result = Task.Factory.StartNew(() =>
@@ -127,8 +141,7 @@ namespace Batch.Tests.InMemoryTests
             Assert.NotNull(handler.RequestHeaders.GetValues("User-Agent"));
 
             // Validate result
-            Assert.Equal(HttpStatusCode.OK, result.Response.StatusCode);
-            AssertOnApplicationPackageProperties(result.Body, utcNow);
+            Assert.Equal(HttpStatusCode.NoContent, result.Response.StatusCode);
         }
 
         [Fact]
@@ -189,15 +202,23 @@ namespace Batch.Tests.InMemoryTests
         {
             var utcNow = DateTime.UtcNow;
 
-            HttpResponseMessage response = new HttpResponseMessage()
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Created)
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(ApplicationJson())
+                Content = new StringContent(@"{
+                    'id': 'foo',
+                    'allowUpdates': 'true',
+                    'displayName' : 'displayName',
+                    'defaultVersion' : 'beta',
+                    'packages':[
+                        {'version':'fooVersion', 'state':'pending', 'format': 'betaFormat', 'lastActivationTime': '" + utcNow.ToString("o") + @"'}],
+
+                    }")
             };
 
 
             response.Headers.Add("x-ms-request-id", "1");
-            var handler = new RecordedDelegatingHandler(response);
+            var handler = new RecordedDelegatingHandler(response) { StatusCodeToReturn = HttpStatusCode.OK };
             var client = BatchTestHelper.GetBatchManagementClient(handler);
 
             var result = Task.Factory.StartNew(() =>
@@ -212,7 +233,16 @@ namespace Batch.Tests.InMemoryTests
 
             // Validate result
             Assert.Equal(HttpStatusCode.OK, result.Response.StatusCode);
-            AssertOnApplicationProperties(result.Body);
+
+            Assert.Equal("foo", result.Body.Id);
+            Assert.True(result.Body.AllowUpdates);
+            Assert.Equal("beta", result.Body.DefaultVersion);
+            Assert.Equal("displayName", result.Body.DisplayName);
+            Assert.Equal(1, result.Body.Packages.Count);
+            Assert.Equal("betaFormat", result.Body.Packages.First().Format);
+            Assert.Equal(PackageState.Pending, result.Body.Packages.First().State);
+            Assert.Equal("fooVersion", result.Body.Packages.First().Version);
+            Assert.Equal(utcNow, result.Body.Packages.First().LastActivationTime);
         }
 
         [Fact]
@@ -220,15 +250,23 @@ namespace Batch.Tests.InMemoryTests
         {
             var utcNow = DateTime.UtcNow;
 
-            HttpResponseMessage response = new HttpResponseMessage()
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Created)
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(ApplicationPackageJson(utcNow))
+                Content = new StringContent(@"{
+                    'id': 'foo',
+                    'storageUrl': '//storageUrl',
+                    'state' : 'Pending',
+                    'version' : 'beta',
+                    'format':'zip',
+                    'storageUrlExpiry':'" + utcNow.ToString("o") + @"',
+                    'lastActivationTime':'" + utcNow.ToString("o") + @"',
+                    }")
             };
 
 
             response.Headers.Add("x-ms-request-id", "1");
-            var handler = new RecordedDelegatingHandler(response);
+            var handler = new RecordedDelegatingHandler(response) { StatusCodeToReturn = HttpStatusCode.OK };
             var client = BatchTestHelper.GetBatchManagementClient(handler);
 
             var result = Task.Factory.StartNew(() =>
@@ -244,7 +282,14 @@ namespace Batch.Tests.InMemoryTests
 
             //Validate result
             Assert.Equal(HttpStatusCode.OK, result.Response.StatusCode);
-            AssertOnApplicationPackageProperties(result.Body, utcNow);
+
+            Assert.Equal("foo", result.Body.Id);
+            Assert.Equal("//storageUrl", result.Body.StorageUrl);
+            Assert.Equal(PackageState.Pending, result.Body.State);
+            Assert.Equal("beta", result.Body.Version);
+            Assert.Equal("zip", result.Body.Format);
+            Assert.Equal(utcNow, result.Body.LastActivationTime);
+            Assert.Equal(utcNow, result.Body.StorageUrlExpiry);
         }
 
         [Fact]
@@ -263,7 +308,16 @@ namespace Batch.Tests.InMemoryTests
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Created)
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent($@"{{ 'value':[{ApplicationJson()}] }}")
+                Content = new StringContent(@"{ 'value':[{
+                    'id': 'foo',
+                    'allowUpdates': 'true',
+                    'displayName' : 'DisplayName',
+                    'defaultVersion' : 'beta',
+                    'packages':[
+                        {'version':'version1', 'state':'pending', 'format': 'beta', 'lastActivationTime': '" + utcNow.ToString("o") + @"'},
+                        {'version':'version2', 'state':'pending', 'format': 'alpha', 'lastActivationTime': '" + utcNow.ToString("o") + @"'}],
+
+                    }]}")
             };
 
 
@@ -283,51 +337,27 @@ namespace Batch.Tests.InMemoryTests
             Assert.Equal(HttpStatusCode.OK, result.Response.StatusCode);
 
             Application application = result.Body.First();
-            AssertOnApplicationProperties(application);
-        }
-
-        [Fact]
-        public void ListApplicationPackageValidateMessage()
-        {
-            var utcNow = DateTime.UtcNow;
-
-            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Created)
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent($@"{{ 'value':[{ApplicationPackageJson(utcNow)}] }}")
-            };
-
-
-            response.Headers.Add("x-ms-request-id", "1");
-            var handler = new RecordedDelegatingHandler(response) { StatusCodeToReturn = HttpStatusCode.OK };
-            var client = BatchTestHelper.GetBatchManagementClient(handler);
-
-            var result = Task.Factory.StartNew(() => client.ApplicationPackage.ListWithHttpMessagesAsync(
-                "appName",
-                "resourceGroupName",
-                "acctName")).Unwrap().GetAwaiter().GetResult();
-
-            // Validate headers - User-Agent for certs, Authorization for tokens
-            Assert.Equal(HttpMethod.Get, handler.Method);
-            Assert.NotNull(handler.RequestHeaders.GetValues("User-Agent"));
-
-            // Validate result
-            Assert.Equal(HttpStatusCode.OK, result.Response.StatusCode);
-            ApplicationPackage package = result.Body.First();
-            AssertOnApplicationPackageProperties(package, utcNow);
+            Assert.Equal("foo", application.Id);
+            Assert.True(application.AllowUpdates);
+            Assert.Equal("beta", application.DefaultVersion);
+            Assert.Equal("DisplayName", application.DisplayName);
+            Assert.Equal(2, application.Packages.Count);
+            Assert.Equal("beta", application.Packages.First().Format);
+            Assert.Equal(PackageState.Pending, application.Packages.First().State);
+            Assert.Equal("version1", application.Packages.First().Version);
+            Assert.Equal(utcNow, application.Packages.First().LastActivationTime);
         }
 
         [Fact]
         public void UpdateApplicationValidateMessage()
         {
-            HttpResponseMessage response = new HttpResponseMessage()
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Created)
             {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(ApplicationJson(displayName: "display-name"))
+                StatusCode = HttpStatusCode.NoContent
             };
 
             response.Headers.Add("x-ms-request-id", "1");
-            var handler = new RecordedDelegatingHandler(response);
+            var handler = new RecordedDelegatingHandler(response) { StatusCodeToReturn = HttpStatusCode.OK };
             var client = BatchTestHelper.GetBatchManagementClient(handler);
 
             var result = Task.Factory.StartNew(() =>
@@ -335,7 +365,7 @@ namespace Batch.Tests.InMemoryTests
                 "resourceGroupName",
                 "acctName",
                 "appId",
-                new Application
+                new ApplicationUpdateParameters
                 {
                     AllowUpdates = true,
                     DisplayName = "display-name",
@@ -349,8 +379,7 @@ namespace Batch.Tests.InMemoryTests
             Assert.NotNull(handler.RequestHeaders.GetValues("User-Agent"));
 
             // Validate result
-            Assert.Equal(HttpStatusCode.OK, result.Response.StatusCode);
-            AssertOnApplicationProperties(result.Body, displayName: "display-name");
+            Assert.Equal(HttpStatusCode.NoContent, result.Response.StatusCode);
         }
 
         [Fact]
@@ -372,9 +401,9 @@ namespace Batch.Tests.InMemoryTests
             var handler = new RecordedDelegatingHandler();
             var client = BatchTestHelper.GetBatchManagementClient(handler);
 
-            Assert.Throws<ValidationException>(() => client.Application.Create(null, "foo", "foo", new Application()));
-            Assert.Throws<ValidationException>(() => client.Application.Create("foo", null, "foo", new Application()));
-            Assert.Throws<ValidationException>(() => client.Application.Create("foo", "foo", null, new Application()));
+            Assert.Throws<ValidationException>(() => client.Application.Create(null, "foo", "foo", new ApplicationCreateParameters()));
+            Assert.Throws<ValidationException>(() => client.Application.Create("foo", null, "foo", new ApplicationCreateParameters()));
+            Assert.Throws<ValidationException>(() => client.Application.Create("foo", "foo", null, new ApplicationCreateParameters()));
             Assert.Throws<NullReferenceException>(() => client.Application.Create("foo", "foo", "foo", null));
         }
 
@@ -427,56 +456,10 @@ namespace Batch.Tests.InMemoryTests
             var handler = new RecordedDelegatingHandler();
             var client = BatchTestHelper.GetBatchManagementClient(handler);
 
-            Assert.Throws<ValidationException>(() => client.Application.Update(null, "foo", "foo", new Application()));
-            Assert.Throws<ValidationException>(() => client.Application.Update("foo", null, "foo", new Application()));
-            Assert.Throws<ValidationException>(() => client.Application.Update("foo", "foo", null, new Application()));
+            Assert.Throws<ValidationException>(() => client.Application.Update(null, "foo", "foo", new ApplicationUpdateParameters()));
+            Assert.Throws<ValidationException>(() => client.Application.Update("foo", null, "foo", new ApplicationUpdateParameters()));
+            Assert.Throws<ValidationException>(() => client.Application.Update("foo", "foo", null, new ApplicationUpdateParameters()));
             Assert.Throws<ValidationException>(() => client.Application.Update("foo", "foo", "foo", null));
-        }
-
-        private static string ApplicationPackageJson(DateTime utcNow)
-        {
-            return @"{
-                'id': 'foo',
-                'name' : 'beta',
-                'properties': {
-                    'storageUrl': '/subscriptions/12345/resourceGroups/foo/providers/Microsoft.Batch/batchAccounts/acctName',
-                    'state' : 'Pending',
-                    'format':'zip',
-                    'storageUrlExpiry':'" + utcNow.ToString("o") + @"',
-                    'lastActivationTime':'" + utcNow.ToString("o") + @"',
-                }
-                }";
-        }
-
-        private void AssertOnApplicationPackageProperties(ApplicationPackage package, DateTime utcNow)
-        {
-            Assert.Equal("foo", package.Id);
-            Assert.Equal("/subscriptions/12345/resourceGroups/foo/providers/Microsoft.Batch/batchAccounts/acctName", package.StorageUrl);
-            Assert.Equal(PackageState.Pending, package.State);
-            Assert.Equal("beta", package.Name);
-            Assert.Equal("zip", package.Format);
-            Assert.Equal(utcNow, package.LastActivationTime);
-            Assert.Equal(utcNow, package.StorageUrlExpiry);
-        }
-
-        private static string ApplicationJson(string displayName = null)
-        {
-            return $@"{{
-                'id': 'foo',
-                'properties': {{
-                    'allowUpdates': 'true',
-                    'displayName' : '{displayName ?? "displayName"}',
-                    'defaultVersion' : 'beta',
-                }}
-                }}";
-        }
-
-        private void AssertOnApplicationProperties(Application application, string displayName = null)
-        {
-            Assert.Equal("foo", application.Id);
-            Assert.True(application.AllowUpdates);
-            Assert.Equal("beta", application.DefaultVersion);
-            Assert.Equal(displayName ?? "displayName", application.DisplayName);
         }
     }
 }

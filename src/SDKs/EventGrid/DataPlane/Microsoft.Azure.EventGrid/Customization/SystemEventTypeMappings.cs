@@ -50,7 +50,6 @@ namespace Microsoft.Azure.EventGrid
             { EventTypes.MediaJobOutputFinishedEvent, typeof(MediaJobOutputFinishedEventData) },
             { EventTypes.MediaJobOutputProcessingEvent, typeof(MediaJobOutputProcessingEventData) },
             { EventTypes.MediaJobOutputScheduledEvent, typeof(MediaJobOutputScheduledEventData) },
-            { EventTypes.MediaJobOutputProgressEvent, typeof(MediaJobOutputProgressEventData) },
             { EventTypes.MediaLiveEventEncoderConnectedEvent, typeof(MediaLiveEventEncoderConnectedEventData) },
             { EventTypes.MediaLiveEventConnectionRejectedEvent, typeof(MediaLiveEventConnectionRejectedEventData) },
             { EventTypes.MediaLiveEventEncoderDisconnectedEvent, typeof(MediaLiveEventEncoderDisconnectedEventData) },

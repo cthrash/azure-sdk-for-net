@@ -2865,7 +2865,7 @@ namespace Microsoft.Azure.Management.DataFactory
         }
 
         /// <summary>
-        /// Upgrade self-hosted integration runtime to latest version if availability.
+        /// Upgrade self-hosted integration runtime to latest version if availably.
         /// </summary>
         /// <param name='resourceGroupName'>
         /// The resource group name.

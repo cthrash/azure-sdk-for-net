@@ -53,10 +53,8 @@ namespace Microsoft.Azure.Management.Blueprint
         /// <summary>
         /// Create or update a Blueprint assignment.
         /// </summary>
-        /// <param name='scope'>
-        /// The scope of the resource. Valid scopes are: management group (format:
-        /// '/providers/Microsoft.Management/managementGroups/{managementGroup}'),
-        /// subscription (format: '/subscriptions/{subscriptionId}').
+        /// <param name='subscriptionId'>
+        /// azure subscriptionId, which we assign the blueprint to.
         /// </param>
         /// <param name='assignmentName'>
         /// name of the assignment.
@@ -85,15 +83,15 @@ namespace Microsoft.Azure.Management.Blueprint
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<AzureOperationResponse<Assignment>> CreateOrUpdateWithHttpMessagesAsync(string scope, string assignmentName, Assignment assignment, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<AzureOperationResponse<Assignment>> CreateOrUpdateWithHttpMessagesAsync(string subscriptionId, string assignmentName, Assignment assignment, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (Client.ApiVersion == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "this.Client.ApiVersion");
             }
-            if (scope == null)
+            if (subscriptionId == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "scope");
+                throw new ValidationException(ValidationRules.CannotBeNull, "subscriptionId");
             }
             if (assignmentName == null)
             {
@@ -114,7 +112,7 @@ namespace Microsoft.Azure.Management.Blueprint
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("scope", scope);
+                tracingParameters.Add("subscriptionId", subscriptionId);
                 tracingParameters.Add("assignmentName", assignmentName);
                 tracingParameters.Add("assignment", assignment);
                 tracingParameters.Add("cancellationToken", cancellationToken);
@@ -122,8 +120,8 @@ namespace Microsoft.Azure.Management.Blueprint
             }
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "{scope}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}").ToString();
-            _url = _url.Replace("{scope}", scope);
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "subscriptions/{subscriptionId}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}").ToString();
+            _url = _url.Replace("{subscriptionId}", System.Uri.EscapeDataString(subscriptionId));
             _url = _url.Replace("{assignmentName}", System.Uri.EscapeDataString(assignmentName));
             List<string> _queryParameters = new List<string>();
             if (Client.ApiVersion != null)
@@ -264,10 +262,8 @@ namespace Microsoft.Azure.Management.Blueprint
         /// <summary>
         /// Get a Blueprint assignment.
         /// </summary>
-        /// <param name='scope'>
-        /// The scope of the resource. Valid scopes are: management group (format:
-        /// '/providers/Microsoft.Management/managementGroups/{managementGroup}'),
-        /// subscription (format: '/subscriptions/{subscriptionId}').
+        /// <param name='subscriptionId'>
+        /// azure subscriptionId, which we assign the blueprint to.
         /// </param>
         /// <param name='assignmentName'>
         /// name of the assignment.
@@ -293,15 +289,15 @@ namespace Microsoft.Azure.Management.Blueprint
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<AzureOperationResponse<Assignment>> GetWithHttpMessagesAsync(string scope, string assignmentName, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<AzureOperationResponse<Assignment>> GetWithHttpMessagesAsync(string subscriptionId, string assignmentName, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (Client.ApiVersion == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "this.Client.ApiVersion");
             }
-            if (scope == null)
+            if (subscriptionId == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "scope");
+                throw new ValidationException(ValidationRules.CannotBeNull, "subscriptionId");
             }
             if (assignmentName == null)
             {
@@ -314,15 +310,15 @@ namespace Microsoft.Azure.Management.Blueprint
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("scope", scope);
+                tracingParameters.Add("subscriptionId", subscriptionId);
                 tracingParameters.Add("assignmentName", assignmentName);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "Get", tracingParameters);
             }
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "{scope}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}").ToString();
-            _url = _url.Replace("{scope}", scope);
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "subscriptions/{subscriptionId}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}").ToString();
+            _url = _url.Replace("{subscriptionId}", System.Uri.EscapeDataString(subscriptionId));
             _url = _url.Replace("{assignmentName}", System.Uri.EscapeDataString(assignmentName));
             List<string> _queryParameters = new List<string>();
             if (Client.ApiVersion != null)
@@ -457,10 +453,8 @@ namespace Microsoft.Azure.Management.Blueprint
         /// <summary>
         /// Delete a Blueprint assignment.
         /// </summary>
-        /// <param name='scope'>
-        /// The scope of the resource. Valid scopes are: management group (format:
-        /// '/providers/Microsoft.Management/managementGroups/{managementGroup}'),
-        /// subscription (format: '/subscriptions/{subscriptionId}').
+        /// <param name='subscriptionId'>
+        /// azure subscriptionId, which we assign the blueprint to.
         /// </param>
         /// <param name='assignmentName'>
         /// name of the assignment.
@@ -486,15 +480,15 @@ namespace Microsoft.Azure.Management.Blueprint
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<AzureOperationResponse<Assignment>> DeleteWithHttpMessagesAsync(string scope, string assignmentName, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<AzureOperationResponse<Assignment>> DeleteWithHttpMessagesAsync(string subscriptionId, string assignmentName, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (Client.ApiVersion == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "this.Client.ApiVersion");
             }
-            if (scope == null)
+            if (subscriptionId == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "scope");
+                throw new ValidationException(ValidationRules.CannotBeNull, "subscriptionId");
             }
             if (assignmentName == null)
             {
@@ -507,15 +501,15 @@ namespace Microsoft.Azure.Management.Blueprint
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("scope", scope);
+                tracingParameters.Add("subscriptionId", subscriptionId);
                 tracingParameters.Add("assignmentName", assignmentName);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "Delete", tracingParameters);
             }
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "{scope}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}").ToString();
-            _url = _url.Replace("{scope}", scope);
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "subscriptions/{subscriptionId}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}").ToString();
+            _url = _url.Replace("{subscriptionId}", System.Uri.EscapeDataString(subscriptionId));
             _url = _url.Replace("{assignmentName}", System.Uri.EscapeDataString(assignmentName));
             List<string> _queryParameters = new List<string>();
             if (Client.ApiVersion != null)
@@ -650,10 +644,8 @@ namespace Microsoft.Azure.Management.Blueprint
         /// <summary>
         /// List Blueprint assignments within a subscription.
         /// </summary>
-        /// <param name='scope'>
-        /// The scope of the resource. Valid scopes are: management group (format:
-        /// '/providers/Microsoft.Management/managementGroups/{managementGroup}'),
-        /// subscription (format: '/subscriptions/{subscriptionId}').
+        /// <param name='subscriptionId'>
+        /// azure subscriptionId, which we assign the blueprint to.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -676,15 +668,15 @@ namespace Microsoft.Azure.Management.Blueprint
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<AzureOperationResponse<IPage<Assignment>>> ListWithHttpMessagesAsync(string scope, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<AzureOperationResponse<IPage<Assignment>>> ListWithHttpMessagesAsync(string subscriptionId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (Client.ApiVersion == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "this.Client.ApiVersion");
             }
-            if (scope == null)
+            if (subscriptionId == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "scope");
+                throw new ValidationException(ValidationRules.CannotBeNull, "subscriptionId");
             }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -693,14 +685,14 @@ namespace Microsoft.Azure.Management.Blueprint
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("scope", scope);
+                tracingParameters.Add("subscriptionId", subscriptionId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "List", tracingParameters);
             }
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "{scope}/providers/Microsoft.Blueprint/blueprintAssignments").ToString();
-            _url = _url.Replace("{scope}", scope);
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "subscriptions/{subscriptionId}/providers/Microsoft.Blueprint/blueprintAssignments").ToString();
+            _url = _url.Replace("{subscriptionId}", System.Uri.EscapeDataString(subscriptionId));
             List<string> _queryParameters = new List<string>();
             if (Client.ApiVersion != null)
             {

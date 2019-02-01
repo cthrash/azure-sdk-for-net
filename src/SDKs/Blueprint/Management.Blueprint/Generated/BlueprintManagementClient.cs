@@ -95,9 +95,9 @@ namespace Microsoft.Azure.Management.Blueprint
         public virtual IAssignmentsOperations Assignments { get; private set; }
 
         /// <summary>
-        /// Gets the IAssignmentOperations.
+        /// Gets the IOperations.
         /// </summary>
-        public virtual IAssignmentOperations AssignmentOperations { get; private set; }
+        public virtual IOperations Operations { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the BlueprintManagementClient class.
@@ -345,9 +345,9 @@ namespace Microsoft.Azure.Management.Blueprint
             PublishedBlueprints = new PublishedBlueprintsOperations(this);
             PublishedArtifacts = new PublishedArtifactsOperations(this);
             Assignments = new AssignmentsOperations(this);
-            AssignmentOperations = new AssignmentOperations(this);
+            Operations = new Operations(this);
             BaseUri = new System.Uri("https://management.azure.com");
-            ApiVersion = "2018-11-01-preview";
+            ApiVersion = "2017-11-11-preview";
             AcceptLanguage = "en-US";
             LongRunningOperationRetryTimeout = 30;
             GenerateClientRequestId = true;

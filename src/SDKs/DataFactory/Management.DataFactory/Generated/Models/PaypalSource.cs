@@ -16,7 +16,7 @@ namespace Microsoft.Azure.Management.DataFactory.Models
     using System.Linq;
 
     /// <summary>
-    /// A copy activity Paypal Service source.
+    /// A copy activity Paypal Serivce source.
     /// </summary>
     public partial class PaypalSource : CopySource
     {
